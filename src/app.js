@@ -14,4 +14,18 @@ app.get('/usuarios', async (request, response) => {
     }
 });
 
+app.get("/usuarios/:id", async(request, response)=>{
+  try{
+      const usuario = await prismaClient.usuario.findUnique({
+        where: {
+          id: Number(request.params.id)
+        }
+      })
+      return response.json(usuario)
+  }
+  catch (e){
+          console.log(e)
+  }
+})
+
 app.listen(3000, ()=> console.log("Api rodando"))

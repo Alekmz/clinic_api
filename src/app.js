@@ -8,6 +8,9 @@ app.get('/usuarios', async (request, response) => {
     try{
         const usuarios = await prismaClient.usuario.findMany();
         return response.json(usuarios)
+        if(usuarios == null){
+          response.status(400).send("Usuario nao existe")
+        }
     }
     catch (e){
             console.log(e)
@@ -28,4 +31,4 @@ app.get("/usuarios/:id", async(request, response)=>{
   }
 })
 
-app.listen(3000, ()=> console.log("Api rodando"))
+app.listen(3000, ()=> console.log("Api rodandos"))

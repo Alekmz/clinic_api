@@ -83,4 +83,24 @@ app.put("/usuarios/:id", async(req, res)=>{
   }
 })
 
+app.delete("/usuarios/:id", async(req, res) => {
+  const { params } = req
+  try {
+    const usuarioDeletado = await prismaClient.usuario.delete({
+      where: {
+        id: Number(params.id),
+      },
+    })
+    res.status(200).json({
+      message: "Usuário deletado!",
+      data: usuarioDeletado
+    })
+  } catch (error) {
+    if(error.code == "P2025"){
+      res.status(404).send("Usuário não existe no banco")
+    }
+  }
+})
+
+
 app.listen(3000, () => console.log("Api rodandos"))

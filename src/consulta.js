@@ -1,53 +1,52 @@
 import { Router } from "express";
-import { prismaClient } from '../prisma/prisma.js';
+import { prismaClient } from "../prisma/prisma.js";
 
-export const exameRouter = Router()
+export const consultasRouter = Router();
 
-exameRouter.get('/exames', async (_, response) => {
+app.get('/consultas', async (_, response) => {
     try {
-        const exames = await prismaClient.exame.findMany();
-        return response.json(exames)
+        const consultas = await prismaClient.consulta.findMany();
+        return response.json(consultas)
     }
     catch (e) {
         console.log(e)
     }
 });
 
-exameRouter.get("/exames/:id", async (request, response) => {
+app.get("/consultas/:id", async (request, response) => {
     try {
-        const exames = await prismaClient.exame.findUnique({
+        const consultas = await prismaClient.consulta.findUnique({
             where: {
                 id: Number(request.params.id)
             }
         })
-        if (!exames) return response.status(404).send("Exame não existe!")
-        return response.json(exames)
+        if (!consultas) return response.status(404).send("Prontuario não existe!")
+        return response.json(consultas)
     }
     catch (e) {
         console.log(e)
     }
 })
 
-exameRouter.post("/exames", async (req, res) => {
+app.post("/consultas", async (req, res) => {
     try {
         const { body } = req
         const bodyKeys = Object.keys(body)
         for (const key of bodyKeys) {
-            if (key !== "tipo_exame" &&
-                key !== "resultado" &&
-                key !== "data_exame" &&
-                key !== "link_arquivo" &&
+            if (key !== "motivo" &&
+                key !== "data_consulta" &&
                 key !== "observacoes" &&
-                key !== "paciente_id"
+                key !== "medico_responsavel_id" &&
+                key !== "paciente_id" 
             ) return res.status(404).send("Colunas não existentes")
         }
-        const exames = await prismaClient.exame.create({
+        const consultas = await prismaClient.consulta.create({
             data: {
                 ...body,
-                data_exame: new Date(body.data_exame) // corrigir esse cara no put quando nao se manda ele... TO-DO
+                data_consulta: new Date(body.data_consulta) // corrigir esse cara no put quando nao se manda ele... TO-DO
             },
         })
-        return res.status(201).json(exames)
+        return res.status(201).json(consultas)
     } catch (error) {
         console.error(error)
         if (error.code === "P2002") {
@@ -56,34 +55,33 @@ exameRouter.post("/exames", async (req, res) => {
     }
 })
 
-exameRouter.put("/exames/:id", async (req, res) => {
+app.put("/consultas/:id", async (req, res) => {
     try {
         const { body, params } = req
         const bodyKeys = Object.keys(body)
         for (const key of bodyKeys) {
-            if (key !== "tipo_exame" &&
-                key !== "resultado" &&
-                key !== "data_exame" &&
-                key !== "link_arquivo" &&
+            if (key !== "motivo" &&
+                key !== "data_consulta" &&
                 key !== "observacoes" &&
-                key !== "paciente_id"
+                key !== "medico_responsavel_id" &&
+                key !== "paciente_id" 
             ) return res.status(404).send("Colunas não existentes")
         }
-        await prismaClient.exame.update({
+        await prismaClient.consulta.update({
             where: { id: Number(params.id) },
             data: {
                 ...body
             },
         })
-        const exameAtualizado = await prismaClient.exame.findUnique({
+        const prontuarioAtualizado = await prismaClient.consulta.findUnique({
             where: {
                 id: Number(params.id)
             }
         })
 
         return res.status(201).json({
-            message: "Paciente atualizado!",
-            data: exameAtualizado
+            message: "Prontuario atualizado!",
+            data: prontuarioAtualizado
         })
 
     } catch (error) {
@@ -97,17 +95,17 @@ exameRouter.put("/exames/:id", async (req, res) => {
     }
 })
 
-exameRouter.delete("/exames/:id", async (req, res) => {
+app.delete("/consultas/:id", async (req, res) => {
     const { params } = req
     try {
-        const exameDeletado = await prismaClient.exame.delete({
+        const consultaDeletado = await prismaClient.consulta.delete({
             where: {
                 id: Number(params.id),
             },
         })
         res.status(200).json({
             message: "Exame deletado!",
-            data: exameDeletado
+            data: consultaDeletado
         })
     } catch (error) {
         if (error.code == "P2025") {

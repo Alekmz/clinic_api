@@ -1,6 +1,7 @@
+import { Router } from "express";
 import { prismaClient } from "../prisma/prisma";
 
-const pacientesRouter = Router()
+export const pacientesRouter = Router()
 
 // Pacientes
 pacientesRouter.get('/pacientes', async (request, response) => {

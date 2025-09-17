@@ -12,10 +12,9 @@ import { exameRouter } from "./routes/exame.js";
 const app = express();
 
 // Middlewares globais
-app.use(cors()); // libera CORS
-app.use(express.json()); // interpreta JSON do body
+app.use(cors()); 
+app.use(express.json());
 
-// Teste rápido para saber se o servidor responde
 app.get("/ping", (req, res) => {
   console.log(" GET /ping chegou");
   res.send("pong");

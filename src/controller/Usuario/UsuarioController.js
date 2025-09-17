@@ -5,12 +5,10 @@ import { prismaClient } from "../../../prisma/prisma.js";
 // GET /usuarios
 export async function getTodosOsUsuarios(req, res) {
   try {
-    console.log("📌 GET /usuarios chegou");
     const usuarios = await prismaClient.usuario.findMany();
-    console.log("✅ Usuarios encontrados:", usuarios);
     return res.json(usuarios);
   } catch (e) {
-    console.error("❌ Erro em getTodosOsUsuarios:", e);
+    console.error("Erro em getTodosOsUsuarios:", e);
     return res.status(500).json({ error: "Erro ao buscar usuários" });
   }
 }
@@ -24,7 +22,7 @@ export async function getUsuarioPorId(req, res) {
     if (!usuario) return res.status(404).send("Usuário não existe!");
     return res.json(usuario);
   } catch (e) {
-    console.error("❌ Erro em getUsuarioPorId:", e);
+    console.error(" Erro em getUsuarioPorId:", e);
     return res.status(500).json({ error: "Erro ao buscar usuário" });
   }
 }
@@ -43,10 +41,10 @@ export async function criarUsuario(req, res) {
       },
     });
 
-    console.log("✅ Usuário criado:", usuario);
+    console.log(" Usuário criado:", usuario);
     return res.status(201).json(usuario);
   } catch (error) {
-    console.error("❌ Erro ao criar usuário:", error);
+    console.error("Erro ao criar usuário:", error);
 
     if (error.code === "P2002") {
       return res
@@ -73,7 +71,7 @@ export async function atualizarUsuario(req, res) {
       data: usuarioAtualizado,
     });
   } catch (error) {
-    console.error("❌ Erro ao atualizar usuário:", error);
+    console.error(" Erro ao atualizar usuário:", error);
 
     if (error.code == "P2025") {
       return res.status(404).send("Usuário não existe no banco");
@@ -99,7 +97,7 @@ export async function deletarUsuario(req, res) {
       data: usuarioDeletado,
     });
   } catch (error) {
-    console.error("❌ Erro ao deletar usuário:", error);
+    console.error(" Erro ao deletar usuário:", error);
 
     if (error.code == "P2025") {
       return res.status(404).send("Usuário não existe no banco");

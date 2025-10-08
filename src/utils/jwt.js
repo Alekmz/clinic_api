@@ -24,3 +24,8 @@ export function verifyAccess(token) {
 export function verifyRefresh(token) {
     return jwt.verify(token, env.refreshSecret);
 }
+
+export function getToken(token) {
+    const tokenWithoutBearer = token.slice("Bearer ".length);
+    return jwt.decode(tokenWithoutBearer);
+}

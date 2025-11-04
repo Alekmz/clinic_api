@@ -5,7 +5,8 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:senai@127.0.0.1:5432/clinicadb"
+  // url      = "postgresql://postgres:senai@127.0.0.1:5432/clinicadb"
+  url      = "postgres://postgres:c7c7af0b08e5661e3292@easypanel.grupocantoacanto.com.br:7543/development"
 }
 
 // Tabela usuario

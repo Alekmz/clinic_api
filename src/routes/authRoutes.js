@@ -6,26 +6,24 @@ import { authController } from "../controller/Auth/AuthController.js";
 
 const authRouter = Router();
 
-/* 
-
-*/
-
 authRouter.post(
-  "/auth/register",
+  "/register",
   /* 
   #swagger.tags = ['Autenticação']
   #swagger.description = 'Rotas públicas e protegidas de autenticação JWT'
   #swagger.summary = 'Cria um novo usuário' 
+  #swagger.security = []
   */
   authController.register
 );
 
 authRouter.post(
-  "/auth/login",
+  "/login",
   /* 
   #swagger.tags = ['Autenticação']
   #swagger.description = 'Rotas públicas e protegidas de autenticação JWT'
   #swagger.summary = 'Autentica o usuário e retorna um token JWT' 
+  #swagger.security = []
   */
   authController.login
 );
